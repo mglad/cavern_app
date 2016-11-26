@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#8f2140</color>
+    <color name="colorPrimaryDark">#636b70</color>
+    <color name="colorAccent">#0f1f7a</color>
+    <color name="trackingPlaced">#43A047</color>
+    <color name="trackingInProgress">#FDD835</color>
+    <color name="trackingFinished">#E53935</color>
+</resources>

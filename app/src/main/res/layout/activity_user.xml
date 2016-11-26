@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mglad.cavern.UserActivity">
+
+    <ProgressBar
+        android:id="@+id/hours_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+    <LinearLayout
+        android:id="@+id/user_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/place_order_button"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:layout_weight=".50"
+                android:text="@string/place_order" />
+
+            <Button
+                android:id="@+id/track_order_button"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:layout_weight=".50"
+                android:text="@string/track_order" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:padding="3dip"
+            android:text="Hours of Operation"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TextView
+                    android:layout_column="1"
+                    android:padding="3dip"
+                    android:text="Day Of Week"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:gravity="right"
+                    android:padding="3dip"
+                    android:text="Hours"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TextView
+                    android:layout_column="1"
+                    android:padding="3dip"
+                    android:text="Sunday"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hours_sunday"
+                    android:gravity="right"
+                    android:padding="3dip"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TextView
+                    android:layout_column="1"
+                    android:padding="3dip"
+                    android:text="Monday"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hours_monday"
+                    android:gravity="right"
+                    android:padding="3dip"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TextView
+                    android:layout_column="1"
+                    android:padding="3dip"
+                    android:text="Tuesday"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hours_tuesday"
+                    android:gravity="right"
+                    android:padding="3dip"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TextView
+                    android:layout_column="1"
+                    android:padding="3dip"
+                    android:text="Wednesday"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hours_wednesday"
+                    android:gravity="right"
+                    android:padding="3dip"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TextView
+                    android:layout_column="1"
+                    android:padding="3dip"
+                    android:text="Thursday"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hours_thursday"
+                    android:gravity="right"
+                    android:padding="3dip"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TextView
+                    android:layout_column="1"
+                    android:padding="3dip"
+                    android:text="Friday"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hours_friday"
+                    android:gravity="right"
+                    android:padding="3dip"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:stretchColumns="1">
+
+                <TextView
+                    android:layout_column="1"
+                    android:padding="3dip"
+                    android:text="Saturday"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hours_saturday"
+                    android:gravity="right"
+                    android:padding="3dip"
+                    android:textSize="18sp" />
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/sign_out_button"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="-75dp"
+            android:text="@string/sign_out" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Cavern</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="place_order">Place Order</string>
+    <string name="track_order">Track Orders</string>
+    <string name="wrap">Wrap</string>
+    <string name="sandwich">Sandwich</string>
+    <string name="salad">Salad</string>
+    <string name="ok">OK</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="pay_there">Pay There</string>
+    <string name="payment_type_text">Choose How to Pay</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    <string name="title_activity_tracking">Tracking</string>
+    <string name="title_activity_order">Order</string>
+    <string name="pick_up_now">Now</string>
+    <string name="pick_up_later">Later</string>
+    <string name="pick_up_text">Pick Up Time</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>
