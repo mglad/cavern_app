@@ -114,7 +114,7 @@ public class TrackingActivity extends AppCompatActivity {
 
     public class GetOrdersTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/order";
+        private final String urlString = "http://192.168.2.17:3000/order/by_user";
 
         GetOrdersTask() {
         }

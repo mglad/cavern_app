@@ -3,22 +3,17 @@ package com.example.mglad.cavern;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
-
-import com.example.mglad.cavern.Adapters.OrderAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,79 +24,148 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminHourActivity extends AppCompatActivity {
+
     private View mAdminView;
     private View mProgressView;
-    private ListView mListView;
-    private OrderAdapter adapter;
-    private GetOrdersTask mOrdersTask = null;
-    private UpdateOrderTask mUpdateOrderTask = null;
-    private static final HashMap<String, String> ORDER_STATUS = new HashMap<String, String>() {{
-        put("Placed", "PLACED");
-        put("In Progress", "IN_PROGRESS");
-        put("Finished", "FINISHED");
-    }};
+    private GetHoursTask mGetHoursTask = null;
+    private UpdateHoursTask mUpdateHoursTask = null;
+    private JSONArray mHours;
+    private Spinner daySpinner;
+    private TimePicker openPicker;
+    private TimePicker closePicker;
+    private CheckBox closedCheckBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
-        mAdminView = findViewById(R.id.admin_layout);
-        mProgressView = findViewById(R.id.admin_progress);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_admin_hour);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mAdminView = findViewById(R.id.admin_hour_form);
+        mProgressView = findViewById(R.id.admin_progress);
+        daySpinner = (Spinner) findViewById(R.id.days_of_week_spinner);
+        openPicker = (TimePicker) findViewById(R.id.select_open_time);
+        closePicker = (TimePicker) findViewById(R.id.select_close_time);
+        closedCheckBox = (CheckBox) findViewById(R.id.is_closed);
+
+        daySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Refreshing...", Snackbar.LENGTH_LONG).setDuration(500).show();
-                getOrders();
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                try {
+                    setTimePickerText(position - 1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+        getHours();
+
+        Button setHoursButton = (Button) findViewById(R.id.set_hours_button);
+        setHoursButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setHours();
             }
         });
-        getOrders();
-    }
-
-    private void getOrders() {
-        showProgress(true);
-        mOrdersTask = new GetOrdersTask();
-        mOrdersTask.execute((Void) null);
-    }
-
-    private void updateOrder(JSONObject order, String status) {
-        showProgress(true);
-        mUpdateOrderTask = new UpdateOrderTask(order, status);
-        mUpdateOrderTask.execute((Void) null);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu_admin; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_admin, menu);
-        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_set_menu:
-                Intent menuIntent = new Intent(this, AdminMenuActivity.class);
-                startActivity(menuIntent);
-                return true;
-            case R.id.action_set_hours:
-                Intent hourIntent = new Intent(this, AdminHourActivity.class);
-                startActivity(hourIntent);
-                return true;
-            case R.id.action_sign_out:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        onBackPressed();
+        return true;
+    }
+
+    private void setHours() {
+        int day = daySpinner.getSelectedItemPosition();
+        if (closedCheckBox.isChecked()) {
+            showProgress(true);
+            mUpdateHoursTask = new UpdateHoursTask(day, null, null);
+            mUpdateHoursTask.execute((Void) null);
+        } else {
+            String openTime = formatTime(openPicker.getCurrentHour(), openPicker.getCurrentMinute());
+            String closeTime = formatTime(closePicker.getCurrentHour(), closePicker.getCurrentMinute());
+            showProgress(true);
+            mUpdateHoursTask = new UpdateHoursTask(day, openTime, closeTime);
+            mUpdateHoursTask.execute((Void) null);
         }
+    }
+
+    private String formatTime(Integer currentHour, Integer currentMinute) {
+        String time = currentHour + ":" + currentMinute;
+        DateFormat outputFormat = new SimpleDateFormat("KK:mm:ss a", Locale.US);
+        SimpleDateFormat parseFormat = new SimpleDateFormat("k:m", Locale.US);
+        try {
+            Date dt = parseFormat.parse(time);
+            return outputFormat.format(dt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private void setTimePickerText(int day) throws JSONException {
+        JSONObject hoursForDay = new JSONObject(mHours.get(day).toString());
+        String openHours = hoursForDay.getString("open");
+        String closeHours = hoursForDay.getString("close");
+        System.out.println(openHours);
+        if (!openHours.equals("null")) {
+            openPicker.setCurrentHour(getHours(openHours));
+            openPicker.setCurrentMinute(getMinutes(openHours));
+            closePicker.setCurrentHour(getHours(closeHours));
+            closePicker.setCurrentMinute(getMinutes(closeHours));
+        } else {
+            openPicker.setCurrentHour(0);
+            openPicker.setCurrentMinute(0);
+            closePicker.setCurrentHour(0);
+            closePicker.setCurrentMinute(0 );
+        }
+        closedCheckBox.setChecked(openHours.equals("null"));
+    }
+
+    private int getHours(String time) {
+        DateFormat outputFormat = new SimpleDateFormat("k", Locale.US);
+        SimpleDateFormat parseFormat = new SimpleDateFormat("KK:mm:ss a", Locale.US);
+        try {
+            Date dt = parseFormat.parse(time);
+            return Integer.parseInt(outputFormat.format(dt));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private int getMinutes(String time) {
+        DateFormat outputFormat = new SimpleDateFormat("m", Locale.US);
+        SimpleDateFormat parseFormat = new SimpleDateFormat("KK:mm:ss a", Locale.US);
+        try {
+            Date dt = parseFormat.parse(time);
+            return Integer.parseInt(outputFormat.format(dt));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private void getHours() {
+        showProgress(true);
+        mGetHoursTask = new GetHoursTask();
+        mGetHoursTask.execute((Void) null);
     }
 
     /**
@@ -139,11 +203,11 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
-    public class GetOrdersTask extends AsyncTask<Void, Void, String> {
+    public class GetHoursTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/order";
+        private final String urlString = "http://192.168.2.17:3000/hours";
 
-        GetOrdersTask() {
+        GetHoursTask() {
         }
 
         @Override
@@ -196,74 +260,35 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final String response) {
-            mOrdersTask = null;
+            mGetHoursTask = null;
             showProgress(false);
-            JSONObject result = null;
             try {
-                result = new JSONObject(response);
-                setOrders(result.getJSONArray("orders"));
-            } catch (JSONException e) {
-                e.printStackTrace();
+                JSONObject result = new JSONObject(response);
+                mHours = result.getJSONArray("hoursOfOperation");
+            } catch (Exception e) {
+
             }
         }
 
         @Override
         protected void onCancelled() {
-            mOrdersTask = null;
+            mGetHoursTask = null;
             showProgress(false);
         }
+
     }
 
+    public class UpdateHoursTask extends AsyncTask<Void, Void, String> {
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        System.out.println("called");
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Set Status");
-        menu.add("Placed");
-        menu.add("In Progress");
-        menu.add("Finished");
-    }
+        private final String urlString = "http://192.168.2.17:3000/hours";
+        private final int mDay;
+        private final String mOpenTime;
+        private final String mCloseTime;
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        String status = item.getTitle().toString();
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        JSONObject obj = null;
-        try {
-            obj = new JSONObject(adapter.getItem(info.position).toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        updateOrder(obj, ORDER_STATUS.get(status));
-        return true;
-    }
-
-    private void setOrders(JSONArray orders) throws JSONException {
-        mListView = (ListView) findViewById(R.id.order_list_view);
-
-        final ArrayList<JSONObject> orderList = new ArrayList<>();
-        for (int i = 0; i < orders.length(); i++) {
-            orderList.add(orders.getJSONObject(i));
-        }
-
-        adapter = new OrderAdapter(this, orderList);
-
-
-        mListView.setAdapter(adapter);
-        registerForContextMenu(mListView);
-    }
-
-    public class UpdateOrderTask extends AsyncTask<Void, Void, String> {
-
-        private final String urlString = "http://192.168.2.17:3000/order";
-        private final JSONObject mOrder;
-        private final String mStatus;
-
-        UpdateOrderTask(JSONObject order, String status) {
-            mOrder = order;
-            mStatus = status;
+        UpdateHoursTask(int day, String openTime, String closeTime) {
+            mDay = day;
+            mOpenTime = openTime;
+            mCloseTime = closeTime;
         }
 
         @Override
@@ -287,7 +312,7 @@ public class AdminActivity extends AppCompatActivity {
             URL url;
             String response = "";
             try {
-                url = new URL(requestURL + "/" + mOrder.getInt("id"));
+                url = new URL(requestURL + "/" + mDay);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
@@ -300,10 +325,11 @@ public class AdminActivity extends AppCompatActivity {
 
                 JSONObject root = new JSONObject();
 
-                root.put("status", mStatus);
+                root.put("open", mOpenTime);
+                root.put("close", mCloseTime);
 
                 String str = root.toString();
-                System.out.println(str);
+
                 byte[] outputBytes = str.getBytes("UTF-8");
                 OutputStream os = conn.getOutputStream();
                 os.write(outputBytes);
@@ -331,20 +357,20 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final String response) {
-            mUpdateOrderTask = null;
+            mUpdateHoursTask = null;
             showProgress(false);
             System.out.println(response);
             try {
                 JSONObject result = new JSONObject(response);
-                setOrders(result.getJSONArray("orders"));
+                mHours = result.getJSONArray("hoursOfOperation");
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
 
         @Override
         protected void onCancelled() {
-            mUpdateOrderTask = null;
+            mUpdateHoursTask = null;
             showProgress(false);
         }
     }

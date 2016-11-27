@@ -302,9 +302,11 @@ public class OrderActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final String response) {
             mMenuTask = null;
+            System.out.println(response);
             showProgress(false);
             try {
                 JSONObject result = new JSONObject(response);
+
                 setMenu(result);
             } catch (Exception e) {
 
@@ -357,7 +359,7 @@ public class OrderActivity extends AppCompatActivity {
         setSpinner(R.id.side_spinner, sideList);
         setSpinner(R.id.side_spinner2, sideList);
 
-        ArrayList<String> beverageList = new ArrayList();
+        ArrayList<String> beverageList = new ArrayList<>();
         beverageList.add("Select");
         JSONArray beverages = result.getJSONArray("beverages");
         for (int i = 0; i < beverages.length(); i++) {

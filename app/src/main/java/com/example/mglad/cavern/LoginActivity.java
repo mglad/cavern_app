@@ -73,10 +73,11 @@ public class LoginActivity extends AppCompatActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        //Remove
-//        showProgress(true);
+//        Remove
+        showProgress(true);
 //        mAuthTask = new UserLoginTask("user", "test");
-//        mAuthTask.execute((Void) null);
+        mAuthTask = new UserLoginTask("eric", "pass");
+        mAuthTask.execute((Void) null);
     }
 
 

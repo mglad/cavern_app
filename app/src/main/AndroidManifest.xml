@@ -24,7 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".UserActivity" />
-        <activity android:name=".AdminActivity" />
+        <activity
+            android:name=".AdminActivity"
+            android:label="Cavern"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OrderActivity"
             android:label="@string/title_activity_order" />
@@ -35,6 +38,8 @@
             android:name=".TrackingActivity"
             android:label="@string/title_activity_tracking"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AdminHourActivity" />
+        <activity android:name=".AdminMenuActivity"></activity>
     </application>
 
 </manifest>

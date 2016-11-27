@@ -250,7 +250,7 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private String formatDate(String date) {
-        DateFormat outputFormat = new SimpleDateFormat("KK:mm a", Locale.US);
+        DateFormat outputFormat = new SimpleDateFormat("h:mm a", Locale.US);
         SimpleDateFormat parseFormat = new SimpleDateFormat("KK:mm:ss a", Locale.US);
         try {
             Date dt = parseFormat.parse(date);

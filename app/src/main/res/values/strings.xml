@@ -26,4 +26,16 @@
     <string name="sign_out">Sign Out</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="set_menu">Set Menu</string>
+    <string name="set_hours">Set Hours</string>
+    <string-array name="days_of_week">
+        <item>Select Day</item>
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
 </resources>
