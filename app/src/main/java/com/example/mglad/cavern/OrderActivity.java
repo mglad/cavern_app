@@ -246,7 +246,7 @@ public class OrderActivity extends AppCompatActivity {
 
     public class GetMenuTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/menu";
+        private final String urlString = "https://dry-bayou-35727.herokuapp.com/menu";
 
         GetMenuTask() {
         }

@@ -141,7 +141,7 @@ public class AdminActivity extends AppCompatActivity {
 
     public class GetOrdersTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/order";
+        private final String urlString = "https://dry-bayou-35727.herokuapp.com/order";
 
         GetOrdersTask() {
         }
@@ -257,7 +257,7 @@ public class AdminActivity extends AppCompatActivity {
 
     public class UpdateOrderTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/order";
+        private final String urlString = "https://dry-bayou-35727.herokuapp.com/order";
         private final JSONObject mOrder;
         private final String mStatus;
 

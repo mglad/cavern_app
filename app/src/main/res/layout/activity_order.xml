@@ -4,118 +4,122 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.mglad.cavern.LoginActivity">
-
-    <LinearLayout
-        android:id="@+id/order_form"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/select_type"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/order_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Type" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
 
-        <RadioGroup
-            android:id="@+id/main_course_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RadioButton
+            <TextView
+                android:id="@+id/select_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:text="@string/sandwich" />
+                android:layout_margin="10dp"
+                android:text="Type" />
 
-            <RadioButton
+            <RadioGroup
+                android:id="@+id/main_course_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:text="@string/wrap" />
+                android:orientation="vertical">
 
-            <RadioButton
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/sandwich" />
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/wrap" />
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/salad" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/select_choice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:text="@string/salad" />
-        </RadioGroup>
+                android:layout_margin="10dp"
+                android:text="Main Course"
+                android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/select_choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Main Course"
-            android:visibility="gone" />
+            <Spinner
+                android:id="@+id/sandwich_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:visibility="gone" />
 
-        <Spinner
-            android:id="@+id/sandwich_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:visibility="gone" />
+            <Spinner
+                android:id="@+id/wrap_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:visibility="gone" />
 
-        <Spinner
-            android:id="@+id/wrap_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:visibility="gone" />
+            <Spinner
+                android:id="@+id/salad_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:visibility="gone" />
 
-        <Spinner
-            android:id="@+id/salad_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/select_sides"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Sides" />
 
-        <TextView
-            android:id="@+id/select_sides"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Sides" />
+            <Spinner
+                android:id="@+id/side_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp" />
 
-        <Spinner
-            android:id="@+id/side_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp" />
+            <Spinner
+                android:id="@+id/side_spinner2"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp" />
 
-        <Spinner
-            android:id="@+id/side_spinner2"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp" />
+            <TextView
+                android:id="@+id/select_beverage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Beverage" />
 
-        <TextView
-            android:id="@+id/select_beverage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Beverage" />
+            <Spinner
+                android:id="@+id/beverage_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp" />
 
-        <Spinner
-            android:id="@+id/beverage_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp" />
+            <Button
+                android:id="@+id/place_order_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Place Order"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/place_order_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Place Order"
-            android:textStyle="bold" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/order_progress"

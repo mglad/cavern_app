@@ -74,10 +74,10 @@ public class LoginActivity extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress);
 
 //        Remove
-        showProgress(true);
+//        showProgress(true);
 //        mAuthTask = new UserLoginTask("user", "test");
-        mAuthTask = new UserLoginTask("eric", "pass");
-        mAuthTask.execute((Void) null);
+//        mAuthTask = new UserLoginTask("eric", "pass");
+//        mAuthTask.execute((Void) null);
     }
 
 
@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/user";
+        private final String urlString = "https://dry-bayou-35727.herokuapp.com/user";
         private final String mEmail;
         private final String mPassword;
 

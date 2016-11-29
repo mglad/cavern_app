@@ -205,7 +205,7 @@ public class AdminHourActivity extends AppCompatActivity {
 
     public class GetHoursTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/hours";
+        private final String urlString = "https://dry-bayou-35727.herokuapp.com/hours";
 
         GetHoursTask() {
         }
@@ -280,7 +280,7 @@ public class AdminHourActivity extends AppCompatActivity {
 
     public class UpdateHoursTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/hours";
+        private final String urlString = "https://dry-bayou-35727.herokuapp.com/hours";
         private final int mDay;
         private final String mOpenTime;
         private final String mCloseTime;

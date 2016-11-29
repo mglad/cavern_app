@@ -215,7 +215,7 @@ public class PaymentActivity extends AppCompatActivity {
      */
     public class PlaceOrderTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "http://192.168.2.17:3000/order";
+        private final String urlString = "https://dry-bayou-35727.herokuapp.com/order";
 
         PlaceOrderTask() {
         }
