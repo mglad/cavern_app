@@ -65,7 +65,7 @@ public class UserActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this);
 
                 builder.setMessage("Are you sure you want to sign out?")
-                        .setTitle("Error").setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        .setTitle("Sign Out").setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         finish();
