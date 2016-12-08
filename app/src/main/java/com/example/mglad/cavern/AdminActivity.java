@@ -96,6 +96,10 @@ public class AdminActivity extends AppCompatActivity {
                 Intent hourIntent = new Intent(this, AdminHourActivity.class);
                 startActivity(hourIntent);
                 return true;
+            case R.id.action_edit_users:
+                Intent editUserIntent = new Intent(this, AdminUserActivity.class);
+                startActivity(editUserIntent);
+                return true;
             case R.id.action_sign_out:
                 finish();
                 return true;
@@ -141,7 +145,7 @@ public class AdminActivity extends AppCompatActivity {
 
     public class GetOrdersTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "https://dry-bayou-35727.herokuapp.com/order";
+        private final String urlString = getString(R.string.server_url) + "order";
 
         GetOrdersTask() {
         }
@@ -257,7 +261,7 @@ public class AdminActivity extends AppCompatActivity {
 
     public class UpdateOrderTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "https://dry-bayou-35727.herokuapp.com/order";
+        private final String urlString = getString(R.string.server_url) + "order";
         private final JSONObject mOrder;
         private final String mStatus;
 

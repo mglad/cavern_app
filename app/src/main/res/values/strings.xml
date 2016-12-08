@@ -28,6 +28,9 @@
     <string name="no">No</string>
     <string name="set_menu">Set Menu</string>
     <string name="set_hours">Set Hours</string>
+    <string name="edit_users">Edit Users</string>
+    <string name="title_activity_admin_users">Active Users</string>
+    <string name="server_url">https://dry-bayou-35727.herokuapp.com/</string>
     <string-array name="days_of_week">
         <item>Select Day</item>
         <item>Sunday</item>

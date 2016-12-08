@@ -39,7 +39,10 @@
             android:label="@string/title_activity_tracking"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AdminHourActivity" />
-        <activity android:name=".AdminMenuActivity"></activity>
+        <activity android:name=".AdminMenuActivity" />
+        <activity
+            android:name=".AdminUserActivity"
+            android:label="@string/title_activity_admin_users" />
     </application>
 
 </manifest>

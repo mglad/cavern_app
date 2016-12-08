@@ -147,7 +147,7 @@ public class UserActivity extends AppCompatActivity {
 
     public class GetHoursTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "https://dry-bayou-35727.herokuapp.com/hours";
+        private final String urlString = getString(R.string.server_url) + "hours";
 
         GetHoursTask() {
         }

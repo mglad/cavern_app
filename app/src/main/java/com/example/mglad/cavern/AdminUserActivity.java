@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mglad.cavern.Adapters.MenuItemAdapter;
+import com.example.mglad.cavern.Adapters.UserAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,42 +30,40 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class AdminMenuActivity extends AppCompatActivity {
+public class AdminUserActivity extends AppCompatActivity {
     private View mAdminView;
     private View mProgressView;
-    private GetMenuTask mMenuTask = null;
-    private SetMenuTask mSetMenuTask = null;
+    private GetUsersTask mGetUsersTask = null;
+    private SetUserTask mSetUserTask = null;
     private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_menu);
+        setContentView(R.layout.activity_admin_user);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAdminView = findViewById(R.id.admin_layout);
         mProgressView = findViewById(R.id.admin_progress);
-        mListView = (ListView) findViewById(R.id.menu_list_view);
+        mListView = (ListView) findViewById(R.id.user_list_view);
 
         mListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckBox checkBox = (CheckBox) view.findViewById(R.id.menu_item_checkbox);
+                CheckBox checkBox = (CheckBox) view.findViewById(R.id.user_checkbox);
                 checkBox.toggle();
                 JSONObject item = new JSONObject();
                 try {
-                    item.put("name", ((TextView) view.findViewById(R.id.menu_item_text)).getText().toString());
-                    item.put("category", ((TextView) view.findViewById(R.id.menu_category_text)).getText().toString());
-                    item.put("type", ((TextView) view.findViewById(R.id.menu_type_text)).getText().toString());
-                    item.put("available", ((CheckBox) view.findViewById(R.id.menu_item_checkbox)).isChecked());
+                    item.put("username", ((TextView) view.findViewById(R.id.user_item_text)).getText().toString());
+                    item.put("blacklisted", !checkBox.isChecked());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 showProgress(true);
-                mSetMenuTask = new SetMenuTask(item);
-                mSetMenuTask.execute((Void) null);
+                mSetUserTask = new SetUserTask(item);
+                mSetUserTask.execute((Void) null);
             }
         });
-        getMenu();
+        getUsers();
     }
 
     @Override
@@ -74,45 +72,29 @@ public class AdminMenuActivity extends AppCompatActivity {
         return true;
     }
 
-    private void getMenu() {
+    private void getUsers() {
         showProgress(true);
-        mMenuTask = new GetMenuTask();
-        mMenuTask.execute((Void) null);
+        mGetUsersTask = new GetUsersTask();
+        mGetUsersTask.execute((Void) null);
     }
 
-    private void setMenu(JSONObject result) throws JSONException {
-        JSONArray mainCourses = result.getJSONArray("mainCourses");
-        JSONArray sides = result.getJSONArray("sides");
-        JSONArray beverages = result.getJSONArray("beverages");
+    private void setUsers(JSONObject result) throws JSONException {
+        JSONArray users = result.getJSONArray("users");
+        ArrayList<JSONObject> userList = new ArrayList<>();
 
-        final ArrayList<JSONObject> menuList = new ArrayList<>();
-        for (int i = 0; i < mainCourses.length(); i++) {
-            JSONObject item = mainCourses.getJSONObject(i);
-            item.put("category", "Main Course");
-            menuList.add(item);
+        for(int i=0; i<users.length(); i++) {
+            userList.add(users.getJSONObject(i));
         }
 
-        for (int i = 0; i < sides.length(); i++) {
-            JSONObject item = sides.getJSONObject(i);
-            item.put("category", "Side");
-            menuList.add(item);
-        }
-
-        for (int i = 0; i < beverages.length(); i++) {
-            JSONObject item = beverages.getJSONObject(i);
-            item.put("category", "Beverage");
-            menuList.add(item);
-        }
-
-        MenuItemAdapter adapter = new MenuItemAdapter(this, menuList);
+        UserAdapter adapter = new UserAdapter(this, userList);
         mListView.setAdapter(adapter);
     }
 
-    public class GetMenuTask extends AsyncTask<Void, Void, String> {
+    public class GetUsersTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = getString(R.string.server_url) + "menu";
+        private final String urlString = getString(R.string.server_url) + "users";
 
-        GetMenuTask() {
+        GetUsersTask() {
         }
 
         @Override
@@ -164,12 +146,12 @@ public class AdminMenuActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final String response) {
-            mMenuTask = null;
+            mGetUsersTask = null;
             System.out.println(response);
             showProgress(false);
             try {
                 JSONObject result = new JSONObject(response);
-                setMenu(result);
+                setUsers(result);
             } catch (Exception e) {
 
             }
@@ -177,18 +159,18 @@ public class AdminMenuActivity extends AppCompatActivity {
 
         @Override
         protected void onCancelled() {
-            mMenuTask = null;
+            mGetUsersTask = null;
             showProgress(false);
         }
     }
 
-    public class SetMenuTask extends AsyncTask<Void, Void, String> {
+    public class SetUserTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = getString(R.string.server_url) + "menu";
-        private final JSONObject mMenuItem;
+        private final String urlString = getString(R.string.server_url) + "users";
+        private final JSONObject mUser;
 
-        SetMenuTask(JSONObject menuItem) {
-            mMenuItem = menuItem;
+        SetUserTask(JSONObject user) {
+            mUser = user;
         }
 
         @Override
@@ -226,7 +208,7 @@ public class AdminMenuActivity extends AppCompatActivity {
 
                 JSONObject root = new JSONObject();
 
-                root.put("menuItem", mMenuItem);
+                root.put("user", mUser);
 
                 String str = root.toString();
                 System.out.println(str);
@@ -257,16 +239,16 @@ public class AdminMenuActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final String response) {
-            mSetMenuTask = null;
+            mSetUserTask = null;
             showProgress(false);
             try {
                 JSONObject result = new JSONObject(response);
                 if (result.getBoolean("success")) {
-                    Toast.makeText(getApplicationContext(), "Menu Updated",
+                    Toast.makeText(getApplicationContext(), "Users Updated",
                             Toast.LENGTH_SHORT)
                             .show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error updating menu.",
+                    Toast.makeText(getApplicationContext(), "Error updating users.",
                             Toast.LENGTH_SHORT)
                             .show();
                 }
@@ -277,7 +259,7 @@ public class AdminMenuActivity extends AppCompatActivity {
 
         @Override
         protected void onCancelled() {
-            mSetMenuTask = null;
+            mSetUserTask = null;
             showProgress(false);
         }
     }

@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "https://dry-bayou-35727.herokuapp.com/user";
+        private final String urlString = getString(R.string.server_url) + "user";
         private final String mEmail;
         private final String mPassword;
 

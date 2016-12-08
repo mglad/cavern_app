@@ -114,7 +114,7 @@ public class TrackingActivity extends AppCompatActivity {
 
     public class GetOrdersTask extends AsyncTask<Void, Void, String> {
 
-        private final String urlString = "https://dry-bayou-35727.herokuapp.com/order/by_user";
+        private final String urlString = getString(R.string.server_url) + "order/by_user";
 
         GetOrdersTask() {
         }
